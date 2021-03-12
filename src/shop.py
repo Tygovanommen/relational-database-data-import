@@ -37,21 +37,25 @@ class Shop:
                 # Add line to array
                 if not i in lines:
                     lines[i] = ""
-                lines[i] += "'" + line.strip() + "',"
+                lines[i] += line.strip() + ','
 
             return lines
 
     # Import data to database
     def __import_data(self, lines):
         db = Database()
-        query = "INSERT INTO ... (...) VALUES "
+
+        # Create mass import
+        query = "INSERT INTO adress (zipcode, house_nr) VALUES "
 
         # Loop through string array
         for key, value in lines.items():
-            query += "(" + value[:-1] + "), "
+            row = value[:-1].split(',')
+            query += "('" + row[5] + "', '" + row[2] + "'),"
 
         # Execute query
-        response = db.execute(query)
+        print(query[:-1])
+        response = db.execute(query[:-1])
         if response:
             return 1
         else:

@@ -6,23 +6,18 @@ from src.shop import Shop
 
 
 def main():
-    log = Logger()
-
     # Loop through 'watch' directory
     files = os.listdir("watch")
     if files:
-        log.info("Import started")
+        Logger().info("Import started")
 
         # Step by step process files
         if Shop("Winkels Mario.txt").process():
-            print("Done")
-
             move_file("Winkels Mario.txt")
-            # TBD next file
 
-        log.info("Import complete")
+        Logger().info("Import complete")
     else:
-        log.info("No files found to import")
+        Logger().info("No files found to import")
 
 
 # Move file from watch to complete directory

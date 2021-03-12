@@ -7,17 +7,17 @@ from src.logger import Logger
 
 class Database:
     cursor = conn = None
-    log = Logger()
 
     def __init__(self):
         config = self.__get_config()
         try:
             self.conn = pyodbc.connect(
-                'Driver={SQL Server};''SERVER = ' + config["Server"] + ';DATABASE = ' + config["Database"] + ';UID = ' +
-                config["Username"] + ';PWD = ' + config["Password"])
+                'DRIVER={SQL Server};SERVER=' + config["Server"] + ';DATABASE=' + config[
+                    "Database"] + ';UID=' + config["Username"] + ';PWD=' + config["Password"])
+
             self.cursor = self.conn.cursor()
         except pyodbc.Error as ex:
-            self.log.error("Something went wrong connecting to database: " + ex.args[1])
+            Logger().error("Something went wrong connecting to database: " + ex.args[1])
             exit()
 
     # Read config file
