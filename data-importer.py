@@ -3,6 +3,9 @@ import shutil
 
 from src.logger import Logger
 from src.shop import Shop
+from src.pizzaIngredients import PizzaIngredients
+from src.extraIngredients import ExtraIngredients
+from src.pizzaCrusts import PizzaCrusts
 
 
 def main():
@@ -10,6 +13,11 @@ def main():
 
     # Loop through 'watch' directory
     files = os.listdir("watch")
+
+    PizzaIngredients('pizza_ingredienten.xlsx').process()
+    ExtraIngredients('Extra Ingredienten.csv').process()
+    PizzaCrusts('pizzabodems.xlsx').process()
+
     if files:
         log.info("Import started")
 
