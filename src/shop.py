@@ -1,4 +1,6 @@
 import os
+import re
+
 from src.database import Database
 
 
@@ -12,6 +14,8 @@ class Shop:
 
     # Process shop file
     def process(self):
+        print("Shop import started")
+
         result = 1
         lines = self.__get_lines()
         if lines:
@@ -37,7 +41,7 @@ class Shop:
                 # Add line to array
                 if not i in lines:
                     lines[i] = ""
-                lines[i] += line.strip() + ','
+                lines[i] += line.strip().replace(',', '') + ','
 
             return lines
 
@@ -46,17 +50,25 @@ class Shop:
         db = Database()
 
         # Create mass import
-        query = "INSERT INTO adress (zipcode, house_nr) VALUES "
+        query = "INSERT INTO adress (zipcode, house_nr, house_nr_addition) VALUES "
 
         # Loop through string array
         for key, value in lines.items():
             row = value[:-1].split(',')
-            query += "('" + row[5] + "', '" + row[2] + "'),"
+
+            # Seperate housenumber from addition info
+            housenum = row[2].replace(' ', '')
+            zipcode = row[5].replace(' ', '')
+            match = re.match(r"([0-9]+)([a-z]+)", housenum, re.I)
+            if match:
+                res = match.groups()
+                house_nr = res[0]
+                house_ad = res[1]
+            else:
+                house_nr = housenum
+                house_ad = ""
+
+            query += "('" + zipcode + "', '" + house_nr + "', '" + house_ad + "'),"
 
         # Execute query
-        print(query[:-1])
-        response = db.execute(query[:-1])
-        if response:
-            return 1
-        else:
-            return 0
+        db.execute(query[:-1])
