@@ -9,28 +9,21 @@ from src.pizzaCrusts import PizzaCrusts
 
 
 def main():
-    log = Logger()
-
     # Loop through 'watch' directory
     files = os.listdir("watch")
 
-    PizzaIngredients('pizza_ingredienten.xlsx').process()
-    ExtraIngredients('Extra Ingredienten.csv').process()
-    PizzaCrusts('pizzabodems.xlsx').process()
-
     if files:
-        log.info("Import started")
+        Logger().info("Import started")
 
-        # Step by step process files
-        if Shop("Winkels Mario.txt").process():
-            print("Done")
+        # Start processing
+        PizzaIngredients('pizza_ingredienten.xlsx').process()
+        ExtraIngredients('Extra Ingredienten.csv').process()
+        PizzaCrusts('pizzabodems.xlsx').process()
+        Shop("Winkels Mario.txt").process()
 
-            move_file("Winkels Mario.txt")
-            # TBD next file
-
-        log.info("Import complete")
+        Logger().info("Import complete")
     else:
-        log.info("No files found to import")
+        Logger().info("No files found to import")
 
 
 # Move file from watch to complete directory
