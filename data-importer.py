@@ -12,16 +12,14 @@ def main():
     # Loop through 'watch' directory
     files = os.listdir("watch")
 
-    PizzaIngredients('pizza_ingredienten.xlsx').process()
-    ExtraIngredients('Extra Ingredienten.csv').process()
-    PizzaCrusts('pizzabodems.xlsx').process()
-
     if files:
         Logger().info("Import started")
 
-        # Step by step process files
-        if Shop("Winkels Mario.txt").process():
-            move_file("Winkels Mario.txt")
+        # Start processing
+        PizzaIngredients('pizza_ingredienten.xlsx').process()
+        ExtraIngredients('Extra Ingredienten.csv').process()
+        PizzaCrusts('pizzabodems.xlsx').process()
+        Shop("Winkels Mario.txt").process()
 
         Logger().info("Import complete")
     else:
