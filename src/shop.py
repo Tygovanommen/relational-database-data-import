@@ -10,17 +10,17 @@ class Shop:
 
     # Constructor to setup shop importer
     def __init__(self, filename):
+        self.db = Database()
         self.filename = filename
 
     # Process shop file
     def process(self):
         print("Shop import started")
 
-        result = 1
         lines = self.__get_lines()
         if lines:
-            result = self.__import_data(lines)
-        return result
+            self.__import_adress(lines)
+            self.__import_restaurant(lines)
 
     # Read data
     def __get_lines(self):
@@ -46,8 +46,7 @@ class Shop:
             return lines
 
     # Import data to database
-    def __import_data(self, lines):
-        db = Database()
+    def __import_adress(self, lines):
 
         # Create mass import
         query = "INSERT INTO adress (zipcode, house_nr, house_nr_addition) VALUES "
@@ -57,18 +56,46 @@ class Shop:
             row = value[:-1].split(',')
 
             # Seperate housenumber from addition info
-            housenum = row[2].replace(' ', '')
-            zipcode = row[5].replace(' ', '')
-            match = re.match(r"([0-9]+)([a-z]+)", housenum, re.I)
-            if match:
-                res = match.groups()
-                house_nr = res[0]
-                house_ad = res[1]
-            else:
-                house_nr = housenum
-                house_ad = ""
+            adresInfo = self.__get_adres_info(row)
 
-            query += "('" + zipcode + "', '" + house_nr + "', '" + house_ad + "'),"
+            query += "('" + adresInfo['zipcode'] + "', '" + adresInfo['house_nr'] + "', '" + adresInfo[
+                'house_ad'] + "'),"
 
         # Execute query
-        db.execute(query[:-1])
+        self.db.execute(query[:-1])
+
+    def __import_restaurant(self, lines):
+
+        # Create mass import
+        query = "INSERT INTO restaurant (adress_id, name, phone_nr) VALUES "
+
+        for key, value in lines.items():
+            row = value[:-1].split(',')
+
+            # Seperate housenumber from addition info
+            adresInfo = self.__get_adres_info(row)
+
+            query += "((SELECT id FROM adress WHERE zipcode = '" + adresInfo['zipcode'] + "' AND house_nr = '" + \
+                     adresInfo['house_nr'] + "' AND house_nr_addition = '" + adresInfo[
+                         'house_ad'] + "'), 'MarioPizza - " + row[1] + "', " + adresInfo['phone_nr'] + "),"
+
+        self.db.execute(query[:-1])
+
+    # Seperate housenumber from addition info
+    def __get_adres_info(self, row):
+        response = dict()
+
+        response['zipcode'] = row[5].replace(' ', '')
+        response['phone_nr'] = row[6].replace(' ', '')
+
+        housenum = row[2].replace(' ', '')
+        match = re.match(r"([0-9]+)([a-z]+)", housenum, re.I)
+        if match:
+            res = match.groups()
+            response['house_nr'] = res[0]
+            response['house_ad'] = res[1]
+        else:
+            response['house_nr'] = housenum
+            response['house_ad'] = ""
+
+        return response

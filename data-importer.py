@@ -23,7 +23,7 @@ def main():
         # PizzaCrusts('pizzabodems.xlsx').process()
         # Muncipality("Postcode tabel.mdb").process()
         # ZipCode("Postcode tabel.mdb").process()
-        # Shop("Winkels Mario.txt").process()
+        Shop("Winkels Mario.txt").process()
 
         Logger().info("Import complete")
     else:
