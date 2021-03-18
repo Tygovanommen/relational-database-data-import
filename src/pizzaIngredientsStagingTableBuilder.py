@@ -23,6 +23,8 @@ class PizzaIngredientsStagingTableBuilder:
 
         # uniform capitalization of ingredient names.
         pizza_ingredienten_data_frame['ingredientnaam'] = pizza_ingredienten_data_frame['ingredientnaam'].str.title()
+
+        pizza_ingredienten_data_frame['ingredientnaam'] = pizza_ingredienten_data_frame['ingredientnaam'].str.replace('Chicken Kebak', 'Chicken Kebab') #TODO: Remove this. Log errors, fix in DB.
         # TODO: make own helper class.
         pizza_ingredienten_data_frame['spicy'] = pizza_ingredienten_data_frame['spicy'].str.replace('Ja', '1')
         pizza_ingredienten_data_frame['spicy'] = pizza_ingredienten_data_frame['spicy'].str.replace('Nee', '0')
