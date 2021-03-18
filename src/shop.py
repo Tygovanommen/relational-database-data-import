@@ -77,7 +77,7 @@ class Shop:
 
             query += "((SELECT id FROM adress WHERE zipcode = '" + adresInfo['zipcode'] + "' AND house_nr = '" + \
                      adresInfo['house_nr'] + "' AND house_nr_addition = '" + adresInfo[
-                         'house_ad'] + "'), 'MarioPizza - " + row[1] + "', " + adresInfo['phone_nr'] + "),"
+                         'house_ad'] + "'), '" + row[0] + "', " + adresInfo['phone_nr'] + "),"
 
         self.db.execute(query[:-1])
 
@@ -86,7 +86,7 @@ class Shop:
         response = dict()
 
         response['zipcode'] = row[5].replace(' ', '')
-        response['phone_nr'] = row[6].replace(' ', '')
+        response['phone_nr'] = row[6].replace(' ', '').replace('-', '')
 
         housenum = row[2].replace(' ', '')
         match = re.match(r"([0-9]+)([a-z]+)", housenum, re.I)
