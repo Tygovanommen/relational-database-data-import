@@ -5,3 +5,4 @@ src/__pycache__/
 */Include
 */Scripts
 *.cfg
+.gitignore

@@ -7,33 +7,31 @@ from src.pizzaIngredientsStagingTableBuilder import PizzaIngredientsStagingTable
 from src.extraIngredientsStagingTableBuilder import ExtraIngredientsStagingTableBuilder
 from src.pizzaCrustsStagingTableBuilder import PizzaCrustsStagingTableBuilder
 from src.productsMigration import ProductsMigration
+from src.zipcode import ZipCode
+from src.muncipality import Muncipality
+from src.pizzaIngredients import PizzaIngredients
+from src.extraIngredients import ExtraIngredients
+from src.pizzaCrusts import PizzaCrusts
 
 
 def main():
-    log = Logger()
-
     # Loop through 'watch' directory
     files = os.listdir("watch")
-
-    PizzaIngredientsStagingTableBuilder('pizza_ingredienten.xlsx').process()
-    ExtraIngredientsStagingTableBuilder('Extra Ingredienten.csv').process()
-    PizzaCrustsStagingTableBuilder('pizzabodems.xlsx').process()
-    ProductsMigration().migrate_product_data()
-
-
     if files:
-        log.info("Import started")
+        Logger().info("Import started")
 
-        # Step by step process files
-        # if Shop("Winkels Mario.txt").process():
-        #     print("Done")
-        #
-        #     move_file("Winkels Mario.txt")
-        #     # TBD next file
+        # Start processing
+        PizzaIngredientsStagingTableBuilder('pizza_ingredienten.xlsx').process()
+        ExtraIngredientsStagingTableBuilder('Extra Ingredienten.csv').process()
+        PizzaCrustsStagingTableBuilder('pizzabodems.xlsx').process()
+        ProductsMigration().migrate_product_data()
+        Muncipality("Postcode tabel.mdb").process()
+        ZipCode("Postcode tabel.mdb").process()
+        Shop("Winkels Mario.txt").process()
 
-        log.info("Import complete")
+        Logger().info("Import complete")
     else:
-        log.info("No files found to import")
+        Logger().info("No files found to import")
 
 
 # Move file from watch to complete directory

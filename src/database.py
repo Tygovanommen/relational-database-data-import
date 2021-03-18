@@ -56,5 +56,3 @@ class Database:
 
         except pyodbc.OperationalError as e:
             print(e)
-
-
