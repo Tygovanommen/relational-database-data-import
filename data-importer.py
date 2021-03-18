@@ -3,6 +3,8 @@ import shutil
 
 from src.logger import Logger
 from src.shop import Shop
+from src.zipcode import ZipCode
+from src.muncipality import Muncipality
 from src.pizzaIngredients import PizzaIngredients
 from src.extraIngredients import ExtraIngredients
 from src.pizzaCrusts import PizzaCrusts
@@ -16,9 +18,11 @@ def main():
         Logger().info("Import started")
 
         # Start processing
-        PizzaIngredients('pizza_ingredienten.xlsx').process()
-        ExtraIngredients('Extra Ingredienten.csv').process()
-        PizzaCrusts('pizzabodems.xlsx').process()
+        # PizzaIngredients('pizza_ingredienten.xlsx').process()
+        # ExtraIngredients('Extra Ingredienten.csv').process()
+        # PizzaCrusts('pizzabodems.xlsx').process()
+        # Muncipality("Postcode tabel.mdb").process()
+        # ZipCode("Postcode tabel.mdb").process()
         Shop("Winkels Mario.txt").process()
 
         Logger().info("Import complete")

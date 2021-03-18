@@ -35,8 +35,10 @@ class Database:
 
         return values
 
+    def get_cursor(self):
+        return self.cursor
+
     # Execute query
     def execute(self, query):
         self.cursor.execute(query)
         self.conn.commit()
-        return self.cursor.fetchone()[0]
