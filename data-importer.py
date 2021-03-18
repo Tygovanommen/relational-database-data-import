@@ -3,6 +3,10 @@ import shutil
 
 from src.logger import Logger
 from src.shop import Shop
+from src.pizzaIngredientsStagingTableBuilder import PizzaIngredientsStagingTableBuilder
+from src.extraIngredientsStagingTableBuilder import ExtraIngredientsStagingTableBuilder
+from src.pizzaCrustsStagingTableBuilder import PizzaCrustsStagingTableBuilder
+from src.productsMigration import ProductsMigration
 from src.zipcode import ZipCode
 from src.muncipality import Muncipality
 from src.pizzaIngredients import PizzaIngredients
@@ -13,16 +17,16 @@ from src.pizzaCrusts import PizzaCrusts
 def main():
     # Loop through 'watch' directory
     files = os.listdir("watch")
-
     if files:
         Logger().info("Import started")
 
         # Start processing
-        # PizzaIngredients('pizza_ingredienten.xlsx').process()
-        # ExtraIngredients('Extra Ingredienten.csv').process()
-        # PizzaCrusts('pizzabodems.xlsx').process()
-        # Muncipality("Postcode tabel.mdb").process()
-        # ZipCode("Postcode tabel.mdb").process()
+        PizzaIngredientsStagingTableBuilder('pizza_ingredienten.xlsx').process()
+        ExtraIngredientsStagingTableBuilder('Extra Ingredienten.csv').process()
+        PizzaCrustsStagingTableBuilder('pizzabodems.xlsx').process()
+        ProductsMigration().migrate_product_data()
+        Muncipality("Postcode tabel.mdb").process()
+        ZipCode("Postcode tabel.mdb").process()
         Shop("Winkels Mario.txt").process()
 
         Logger().info("Import complete")

@@ -5,7 +5,7 @@ import src
 filename = None
 
 
-class PizzaCrusts:
+class PizzaCrustsStagingTableBuilder:
 
     # Constructor to setup shop importer
     def __init__(self, filename):

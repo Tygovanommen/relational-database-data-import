@@ -30,5 +30,4 @@ def get_db_engine():
 
     engine = create_engine(
         f'mssql+pyodbc://{username}:{password}@{server}/{database}?driver=SQL Server')
-
     return engine

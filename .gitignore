@@ -1,4 +1,8 @@
 venv/
 src/__pycache__/
 .idea
+*/lib
+*/Include
+*/Scripts
+*.cfg
 .gitignore

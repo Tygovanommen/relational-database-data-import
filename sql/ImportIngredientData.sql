@@ -1,51 +1,67 @@
 CREATE PROCEDURE ImportIngredientData AS
 
 DECLARE
-    @IngredientName VARCHAR(255),
-    @IngredientPrice DECIMAL(4, 2),
+    @IngredientName       VARCHAR(255),
+    @IngredientPrice      DECIMAL(4, 2),
     @IngredientCategoryId INT,
-    @IngredientTaxRateId INT
+    @IngredientTaxRateId  INT
 
-DECLARE cursor_ingredient CURSOR
-FOR SELECT
-        Ingredient, [Extra Price]
-    FROM
-         extra_ingredienten_ghost
+DECLARE
+    cursor_ingredient CURSOR
+        FOR SELECT Ingredient,
+                   [Extra Price]
+            FROM extra_ingredienten_ghost
+    IF NOT EXISTS(SELECT id
+                  FROM category
+                  WHERE category_name = 'Pizza Ingredients')
+        BEGIN
+            EXEC InsertNewCategory 'Pizza Ingredients', 'De Pizza Ingredienten'
+        END
+    SET @IngredientCategoryId = (SELECT id
+                                 FROM category
+                                 WHERE category_name = 'Pizza Ingredients')
+    IF NOT EXISTS(SELECT id
+                  FROM tax_rate
+                  WHERE tax_rate_type = 'Merged Data Tax Rate')
+        BEGIN
+            INSERT INTO tax_rate(tax_rate, tax_rate_type, date_from)
+            VALUES (0, 'Merged Data Tax Rate', getdate())
+        END
 
-IF NOT EXISTS(SELECT id FROM category WHERE category_name = 'Pizza Ingredients')
-    BEGIN
-        EXEC InsertNewCategory 'Pizza Ingredients', 'De Pizza Ingredienten'
-    END
-    SET @IngredientCategoryId = (SELECT id FROM category WHERE category_name = 'Pizza Ingredients')
+    SET @IngredientTaxRateId = (SELECT id
+                                FROM tax_rate
+                                WHERE tax_rate_type = 'Merged Data Tax Rate'
+                                  AND date_to IS NULL)
 
-IF NOT EXISTS(SELECT id FROM tax_rate WHERE tax_rate_type = 'Merged Data Tax Rate')
-    BEGIN
-        INSERT INTO tax_rate(tax_rate, tax_rate_type, date_from)
-        VALUES (0, 'Merged Data Tax Rate', getdate())
-    END
+    OPEN cursor_ingredient
 
-    SET @IngredientTaxRateId = (SELECT id FROM tax_rate WHERE tax_rate_type = 'Merged Data Tax Rate' AND date_to IS NULL)
+    FETCH NEXT FROM cursor_ingredient INTO @IngredientName, @IngredientPrice
+    WHILE @@FETCH_STATUS = 0
+        BEGIN
+            BEGIN TRANSACTION
+                BEGIN TRY
+                    IF NOT EXISTS(SELECT @IngredientName FROM product WHERE product_name = @IngredientName)
+                        BEGIN
+                            EXEC InsertNewProduct
+                                 @IngredientCategoryId,
+                                 @IngredientName,
+                                 1, -- IsEnabled
+                                 1, -- Stock quantity
+                                 @IngredientPrice,
+                                 @IngredientTaxRateId
+                        END
+                    COMMIT TRANSACTION
+                END TRY
+                BEGIN CATCH
+                    ROLLBACK TRANSACTION
+                    PRINT ERROR_MESSAGE()
+                    PRINT ERROR_LINE()
+                    PRINT ERROR_PROCEDURE()
+                END CATCH
+                FETCH NEXT FROM cursor_ingredient INTO @IngredientName, @IngredientPrice
+        END
 
-OPEN cursor_ingredient
-
-FETCH NEXT FROM cursor_ingredient INTO @IngredientName, @IngredientPrice
-
-WHILE @@FETCH_STATUS = 0
-    BEGIN
-        IF NOT EXISTS(SELECT @IngredientName FROM product WHERE product_name = @IngredientName)
-            BEGIN
-                EXEC InsertNewProduct
-                    @IngredientCategoryId,
-                    @IngredientName,
-                    1, -- IsEnabled
-                    1, -- Stock quantity
-                    @IngredientPrice,
-                    @IngredientTaxRateId
-            END
-        FETCH NEXT FROM cursor_ingredient INTO @IngredientName, @IngredientPrice
-    END
-
-CLOSE cursor_ingredient
-DEALLOCATE cursor_ingredient
+    CLOSE cursor_ingredient
+    DEALLOCATE cursor_ingredient
 go
 
