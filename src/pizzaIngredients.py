@@ -19,4 +19,14 @@ class PizzaIngredients:
 
         # uniform capitalization of ingredient names.
         pizza_ingredienten_data_frame['ingredientnaam'] = pizza_ingredienten_data_frame['ingredientnaam'].str.title()
+        # TODO: make own helper class.
+        pizza_ingredienten_data_frame['spicy'] = pizza_ingredienten_data_frame['spicy'].str.replace('Ja', '1')
+        pizza_ingredienten_data_frame['spicy'] = pizza_ingredienten_data_frame['spicy'].str.replace('Nee', '0')
+        pizza_ingredienten_data_frame['vegetarisch'] = pizza_ingredienten_data_frame['vegetarisch'].str.replace('Ja', '1')
+        pizza_ingredienten_data_frame['vegetarisch'] = pizza_ingredienten_data_frame['vegetarisch'].str.replace('Nee', '0')
+        pizza_ingredienten_data_frame["spicy"] = pd.to_numeric(pizza_ingredienten_data_frame["spicy"])
+        pizza_ingredienten_data_frame["vegetarisch"] = pd.to_numeric(pizza_ingredienten_data_frame["vegetarisch"])
+        pizza_ingredienten_data_frame['spicy'] = pizza_ingredienten_data_frame['spicy'].astype('bool')
+        pizza_ingredienten_data_frame['vegetarisch'] = pizza_ingredienten_data_frame['vegetarisch'].astype('bool')
+
         pizza_ingredienten_data_frame.to_sql('pizza_ingredienten_ghost', con=engine, if_exists='replace')
