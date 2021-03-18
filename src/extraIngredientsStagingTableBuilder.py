@@ -5,7 +5,7 @@ import src
 filename = None
 
 
-class ExtraIngredients:
+class ExtraIngredientsStagingTableBuilder:
 
     # Constructor to setup shop importer
     def __init__(self, filename):

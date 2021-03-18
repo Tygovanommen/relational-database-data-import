@@ -3,9 +3,10 @@ import shutil
 
 from src.logger import Logger
 from src.shop import Shop
-from src.pizzaIngredients import PizzaIngredients
-from src.extraIngredients import ExtraIngredients
-from src.pizzaCrusts import PizzaCrusts
+from src.pizzaIngredientsStagingTableBuilder import PizzaIngredientsStagingTableBuilder
+from src.extraIngredientsStagingTableBuilder import ExtraIngredientsStagingTableBuilder
+from src.pizzaCrustsStagingTableBuilder import PizzaCrustsStagingTableBuilder
+from src.productsMigration import ProductsMigration
 
 
 def main():
@@ -14,19 +15,21 @@ def main():
     # Loop through 'watch' directory
     files = os.listdir("watch")
 
-    PizzaIngredients('pizza_ingredienten.xlsx').process()
-    ExtraIngredients('Extra Ingredienten.csv').process()
-    PizzaCrusts('pizzabodems.xlsx').process()
+    PizzaIngredientsStagingTableBuilder('pizza_ingredienten.xlsx').process()
+    ExtraIngredientsStagingTableBuilder('Extra Ingredienten.csv').process()
+    PizzaCrustsStagingTableBuilder('pizzabodems.xlsx').process()
+    ProductsMigration().migrate_product_data()
+
 
     if files:
         log.info("Import started")
 
         # Step by step process files
-        if Shop("Winkels Mario.txt").process():
-            print("Done")
-
-            move_file("Winkels Mario.txt")
-            # TBD next file
+        # if Shop("Winkels Mario.txt").process():
+        #     print("Done")
+        #
+        #     move_file("Winkels Mario.txt")
+        #     # TBD next file
 
         log.info("Import complete")
     else:
