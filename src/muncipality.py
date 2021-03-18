@@ -14,25 +14,28 @@ class Muncipality:
 
     # Process shop file
     def process(self):
-        print("Muncipality import started")
+        filepath = os.getcwd() + '/watch/' + self.filename
+        if os.path.isfile(filepath):
 
-        db = Database()
+            print("Muncipality import started")
+    
+            db = Database()
 
-        conn = pyodbc.connect(
-            r'Driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=' + os.getcwd() + '/watch/' + self.filename)
-        cursor = conn.cursor()
-        cursor.execute('SELECT * FROM GEMEENTEN')
+            conn = pyodbc.connect(
+                r'Driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=' + filepath)
+            cursor = conn.cursor()
+            cursor.execute('SELECT * FROM GEMEENTEN')
 
-        # Create mass import
-        query = "SET IDENTITY_INSERT muncipality ON INSERT INTO muncipality (muncipality_code, muncipality_name) VALUES "
+            # Create mass import
+            query = "SET IDENTITY_INSERT muncipality ON INSERT INTO muncipality (muncipality_code, muncipality_name) VALUES "
 
-        for row in cursor.fetchall():
-            query += "("
-            query += "'" + str(row[0]) + "', "
-            query += "'" + row[1] + "'"
-            query += "),"
+            for row in cursor.fetchall():
+                query += "("
+                query += "'" + str(row[0]) + "', "
+                query += "'" + row[1] + "'"
+                query += "),"
 
-        # Execute query
-        response = db.execute(query[:-1])
-        if not response:
-            Logger().error("Something went wrong while importing municipalities")
+            # Execute query
+            response = db.execute(query[:-1])
+            if not response:
+                Logger().error("Something went wrong while importing municipalities")

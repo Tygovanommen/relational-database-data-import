@@ -12,21 +12,24 @@ class Shop:
     def __init__(self, filename):
         self.db = Database()
         self.filename = filename
+        self.filepath = os.getcwd() + "/watch/" + self.filename
 
     # Process shop file
     def process(self):
-        print("Shop import started")
+        if os.path.isfile(self.filepath):
 
-        lines = self.__get_lines()
-        if lines:
-            self.__import_adress(lines)
-            self.__import_restaurant(lines)
+            print("Shop import started")
+
+            lines = self.__get_lines()
+            if lines:
+                self.__import_adress(lines)
+                self.__import_restaurant(lines)
 
     # Read data
     def __get_lines(self):
         lines = {}
         i = 0
-        with open(os.getcwd() + "/watch/" + self.filename, 'r') as r_file:
+        with open(self.filepath, 'r') as r_file:
             # Loop through lines
             for line in r_file:
                 # Remove comments
@@ -55,14 +58,25 @@ class Shop:
         for key, value in lines.items():
             row = value[:-1].split(',')
 
-            # Seperate housenumber from addition info
+            # Get adres info
             adresInfo = self.__get_adres_info(row)
 
-            query += "('" + adresInfo['zipcode'] + "', '" + adresInfo['house_nr'] + "', '" + adresInfo[
+            series_index = 1
+            if (adresInfo['house_nr'] % 2) == 0:
+                # Even
+                series_index = 0
+
+            search_zipcode = "SELECT id FROM zipcode WHERE zipcode = '" + adresInfo['zipcode'] + \
+                             "' AND series_index = " + series_index + " AND " + adresInfo['house_nr'] + \
+                             " BETWEEN breakpoint_from AND breakpoint_to"
+            query += "((" + search_zipcode + ")), '" + adresInfo['house_nr'] + "', '" + adresInfo[
                 'house_ad'] + "'),"
 
-        # Execute query
-        self.db.execute(query[:-1])
+            # query
+            self.db.execute(query[:-1])
+
+        # commit cursor
+        self.db.get_connection().commit()
 
     def __import_restaurant(self, lines):
 
@@ -72,7 +86,7 @@ class Shop:
         for key, value in lines.items():
             row = value[:-1].split(',')
 
-            # Seperate housenumber from addition info
+            # Get adres info
             adresInfo = self.__get_adres_info(row)
 
             query += "((SELECT id FROM adress WHERE zipcode = '" + adresInfo['zipcode'] + "' AND house_nr = '" + \

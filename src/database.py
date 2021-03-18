@@ -35,6 +35,9 @@ class Database:
 
         return values
 
+    def get_cursor(self):
+        return self.cursor
+
     def get_connection(self):
         return self.conn
 
@@ -43,16 +46,13 @@ class Database:
         try:
             self.cursor.execute(query)
             self.conn.commit()
+        except pyodbc.DataError as e:
+            print(e)
+        except pyodbc.OperationalError as e:
+            print(e)
+        except pyodbc.DatabaseError as e:
+            print(e)
         except pyodbc.Error as e:
             error_log = repr(e).split(';')
             for error in error_log:
                 print(error)
-
-        except pyodbc.DatabaseError as e:
-            print(e)
-
-        except pyodbc.DataError as e:
-            print(e)
-
-        except pyodbc.OperationalError as e:
-            print(e)

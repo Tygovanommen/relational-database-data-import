@@ -9,9 +9,6 @@ from src.pizzaCrustsStagingTableBuilder import PizzaCrustsStagingTableBuilder
 from src.productsMigration import ProductsMigration
 from src.zipcode import ZipCode
 from src.muncipality import Muncipality
-from src.pizzaIngredients import PizzaIngredients
-from src.extraIngredients import ExtraIngredients
-from src.pizzaCrusts import PizzaCrusts
 
 
 def main():
