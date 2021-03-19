@@ -14,24 +14,30 @@ class ZipCode:
 
     # Process shop file
     def process(self):
-        print("Zipcode process started")
+        filepath = os.getcwd() + '/watch/' + self.filename
+        if os.path.isfile(filepath):
 
-        db = Database()
+            print("Zipcode process started")
 
-        conn = pyodbc.connect(
-            r'Driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=' + os.getcwd() + '/watch/' + self.filename)
-        cursor = conn.cursor()
-        query = 'SELECT REPLACE(A13_POSTCODE, \' \', \'\'), ABS(CBool(A13_REEKSIND)), CLng(A13_BREEKPUNT_VAN), ' \
-                'CLng(A13_BREEKPUNT_TEM), A13_WOONPLAATS, A13_STRAATNAAM, CLng(A13_GEMEENTECODE) FROM POSTCODES'
-        cursor.execute(query)
-        data = cursor.fetchall()
+            db = Database()
 
-        # Create mass import
-        print("Importing zipcode data")
-        dbCursor = db.get_cursor()
-        dbCursor.fast_executemany = True
+            conn = pyodbc.connect(
+                r'Driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=' + filepath)
+            cursor = conn.cursor()
+            query = 'SELECT REPLACE(A13_POSTCODE, \' \', \'\'), ABS(CBool(A13_REEKSIND)), CLng(A13_BREEKPUNT_VAN), ' \
+                    'CLng(A13_BREEKPUNT_TEM), A13_WOONPLAATS, A13_STRAATNAAM, CLng(A13_GEMEENTECODE) FROM POSTCODES'
+            cursor.execute(query)
+            data = cursor.fetchall()
 
-        # Create mass import
-        query = "INSERT INTO zipcode (zipcode, series_index, breakpoint_from, breakpoint_to, town, street, muncipality_code) VALUES (?, ?, ?, ?, ?, ?, ?)"
-        dbCursor.executemany(query, data)
-        dbCursor.commit()
+            # Create mass import
+            print("Importing zipcode data")
+            dbCursor = db.get_cursor()
+            dbCursor.fast_executemany = True
+
+            # Create mass import
+            query = "INSERT INTO zipcode (zipcode, series_index, breakpoint_from, breakpoint_to, town, street, muncipality_code) VALUES (?, ?, ?, ?, ?, ?, ?)"
+            try:
+                dbCursor.executemany(query, data)
+                dbCursor.commit()
+            except Exception as e:
+                Logger().error("Error while importing zipcodes: " + str(e))

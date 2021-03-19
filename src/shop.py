@@ -2,6 +2,7 @@ import os
 import re
 
 from src.database import Database
+from src.logger import Logger
 
 
 class Shop:
@@ -12,21 +13,24 @@ class Shop:
     def __init__(self, filename):
         self.db = Database()
         self.filename = filename
+        self.filepath = os.getcwd() + "/watch/" + self.filename
 
     # Process shop file
     def process(self):
-        print("Shop import started")
+        if os.path.isfile(self.filepath):
 
-        lines = self.__get_lines()
-        if lines:
-            self.__import_adress(lines)
-            self.__import_restaurant(lines)
+            print("Shop import started")
+
+            lines = self.__get_lines()
+            if lines:
+                self.__import_adress(lines)
+                self.__import_restaurant(lines)
 
     # Read data
     def __get_lines(self):
         lines = {}
         i = 0
-        with open(os.getcwd() + "/watch/" + self.filename, 'r') as r_file:
+        with open(self.filepath, 'r') as r_file:
             # Loop through lines
             for line in r_file:
                 # Remove comments
@@ -48,38 +52,56 @@ class Shop:
     # Import data to database
     def __import_adress(self, lines):
 
-        # Create mass import
-        query = "INSERT INTO adress (zipcode, house_nr, house_nr_addition) VALUES "
+        # Create cursor queries
+        header = "INSERT INTO adress (zipcode, house_nr, house_nr_addition) VALUES "
 
-        # Loop through string array
+        cursor = self.db.get_connection().cursor()
+        exceptions = 0
         for key, value in lines.items():
-            row = value[:-1].split(',')
 
-            # Seperate housenumber from addition info
+            # Get adres info
+            row = value[:-1].split(',')
             adresInfo = self.__get_adres_info(row)
 
-            query += "('" + adresInfo['zipcode'] + "', '" + adresInfo['house_nr'] + "', '" + adresInfo[
-                'house_ad'] + "'),"
+            query = header + "('" + adresInfo['zipcode'] + "', '" + adresInfo['house_nr'] + "', '" + adresInfo[
+                'house_ad'] + "')"
 
-        # Execute query
-        self.db.execute(query[:-1])
+            try:
+                cursor.execute(query)
+            except Exception as e:
+                exceptions += 1
+
+        cursor.commit()
+        if exceptions > 0:
+            Logger().error(str(exceptions) + " exceptions found while importing addresses")
+
 
     def __import_restaurant(self, lines):
 
-        # Create mass import
-        query = "INSERT INTO restaurant (adress_id, name, phone_nr) VALUES "
+        # Create cursor queries
+        header = "INSERT INTO restaurant (adress_id, name, phone_nr) VALUES "
 
+        cursor = self.db.get_connection().cursor()
+        exceptions = 0
         for key, value in lines.items():
-            row = value[:-1].split(',')
 
-            # Seperate housenumber from addition info
+            # Get adres info
+            row = value[:-1].split(',')
             adresInfo = self.__get_adres_info(row)
 
-            query += "((SELECT id FROM adress WHERE zipcode = '" + adresInfo['zipcode'] + "' AND house_nr = '" + \
+            query = header + "((SELECT id FROM adress WHERE zipcode = '" + adresInfo['zipcode'] + "' AND house_nr = '" + \
                      adresInfo['house_nr'] + "' AND house_nr_addition = '" + adresInfo[
-                         'house_ad'] + "'), '" + row[0] + "', " + adresInfo['phone_nr'] + "),"
+                         'house_ad'] + "'), '" + row[0] + "', " + adresInfo['phone_nr'] + ")"
 
-        self.db.execute(query[:-1])
+            try:
+                cursor.execute(query)
+            except Exception as e:
+                exceptions += 1
+
+        cursor.commit()
+        if exceptions > 0:
+            Logger().error(str(exceptions) + " exceptions found while importing restaurants")
+
 
     # Seperate housenumber from addition info
     def __get_adres_info(self, row):
