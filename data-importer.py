@@ -15,7 +15,6 @@ def main():
     # Loop through 'watch' directory
     files = os.listdir("watch")
     if files:
-        Logger().info("Import started")
 
         # Start processing
         PizzaIngredientsStagingTableBuilder('pizza_ingredienten.xlsx').process()
@@ -26,9 +25,7 @@ def main():
         ZipCode("Postcode tabel.mdb").process()
         Shop("Winkels Mario.txt").process()
 
-        Logger().info("Import complete")
-    else:
-        Logger().info("No files found to import")
+        Logger().info("Import completed")
 
 
 # Move file from watch to complete directory

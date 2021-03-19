@@ -2,6 +2,7 @@ import os
 import re
 
 from src.database import Database
+from src.logger import Logger
 
 
 class Shop:
@@ -51,49 +52,56 @@ class Shop:
     # Import data to database
     def __import_adress(self, lines):
 
-        # Create mass import
-        query = "INSERT INTO adress (zipcode, house_nr, house_nr_addition) VALUES "
+        # Create cursor queries
+        header = "INSERT INTO adress (zipcode, house_nr, house_nr_addition) VALUES "
 
-        # Loop through string array
+        cursor = self.db.get_connection().cursor()
+        exceptions = 0
         for key, value in lines.items():
-            row = value[:-1].split(',')
 
             # Get adres info
+            row = value[:-1].split(',')
             adresInfo = self.__get_adres_info(row)
 
-            series_index = 1
-            if (adresInfo['house_nr'] % 2) == 0:
-                # Even
-                series_index = 0
+            query = header + "('" + adresInfo['zipcode'] + "', '" + adresInfo['house_nr'] + "', '" + adresInfo[
+                'house_ad'] + "')"
 
-            search_zipcode = "SELECT id FROM zipcode WHERE zipcode = '" + adresInfo['zipcode'] + \
-                             "' AND series_index = " + series_index + " AND " + adresInfo['house_nr'] + \
-                             " BETWEEN breakpoint_from AND breakpoint_to"
-            query += "((" + search_zipcode + ")), '" + adresInfo['house_nr'] + "', '" + adresInfo[
-                'house_ad'] + "'),"
+            try:
+                cursor.execute(query)
+            except Exception as e:
+                exceptions += 1
 
-            # query
-            self.db.execute(query[:-1])
+        cursor.commit()
+        if exceptions > 0:
+            Logger().error(str(exceptions) + " exceptions found while importing addresses")
 
-        # commit cursor
-        self.db.get_connection().commit()
 
     def __import_restaurant(self, lines):
 
-        # Create mass import
-        query = "INSERT INTO restaurant (adress_id, name, phone_nr) VALUES "
+        # Create cursor queries
+        header = "INSERT INTO restaurant (adress_id, name, phone_nr) VALUES "
 
+        cursor = self.db.get_connection().cursor()
+        exceptions = 0
         for key, value in lines.items():
-            row = value[:-1].split(',')
 
             # Get adres info
+            row = value[:-1].split(',')
             adresInfo = self.__get_adres_info(row)
 
-            query += "((SELECT id FROM adress WHERE zipcode = '" + adresInfo['zipcode'] + "' AND house_nr = '" + \
+            query = header + "((SELECT id FROM adress WHERE zipcode = '" + adresInfo['zipcode'] + "' AND house_nr = '" + \
                      adresInfo['house_nr'] + "' AND house_nr_addition = '" + adresInfo[
-                         'house_ad'] + "'), '" + row[0] + "', " + adresInfo['phone_nr'] + "),"
+                         'house_ad'] + "'), '" + row[0] + "', " + adresInfo['phone_nr'] + ")"
 
-        self.db.execute(query[:-1])
+            try:
+                cursor.execute(query)
+            except Exception as e:
+                exceptions += 1
+
+        cursor.commit()
+        if exceptions > 0:
+            Logger().error(str(exceptions) + " exceptions found while importing restaurants")
+
 
     # Seperate housenumber from addition info
     def __get_adres_info(self, row):

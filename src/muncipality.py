@@ -23,19 +23,26 @@ class Muncipality:
 
             conn = pyodbc.connect(
                 r'Driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=' + filepath)
-            cursor = conn.cursor()
-            cursor.execute('SELECT * FROM GEMEENTEN')
+            cursorAD = conn.cursor()
+            cursorAD.execute('SELECT * FROM GEMEENTEN')
 
-            # Create mass import
-            query = "SET IDENTITY_INSERT muncipality ON INSERT INTO muncipality (muncipality_code, muncipality_name) VALUES "
+            # Create cursor queries
+            header = "SET IDENTITY_INSERT muncipality ON " \
+                     "INSERT INTO muncipality (muncipality_code, muncipality_name) VALUES "
 
-            for row in cursor.fetchall():
-                query += "("
+            cursor = db.conn.cursor()
+            exceptions = 0
+            for row in cursorAD.fetchall():
+                query = header + "("
                 query += "'" + str(row[0]) + "', "
                 query += "'" + row[1] + "'"
                 query += "),"
 
-            # Execute query
-            response = db.execute(query[:-1])
-            if not response:
-                Logger().error("Something went wrong while importing municipalities")
+                try:
+                    cursor.execute(query)
+                except Exception as e:
+                    exceptions += 1
+
+            cursor.commit()
+            if exceptions > 0:
+                Logger().error(str(exceptions) + " exceptions found while importing municipalities")

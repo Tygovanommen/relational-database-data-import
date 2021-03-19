@@ -1,6 +1,7 @@
 import os
 import pyodbc
 from src.database import Database
+from src.logger import Logger
 
 
 class ZipCode:
@@ -35,5 +36,8 @@ class ZipCode:
 
             # Create mass import
             query = "INSERT INTO zipcode (zipcode, series_index, breakpoint_from, breakpoint_to, town, street, muncipality_code) VALUES (?, ?, ?, ?, ?, ?, ?)"
-            dbCursor.executemany(query, data)
-            dbCursor.commit()
+            try:
+                dbCursor.executemany(query, data)
+                dbCursor.commit()
+            except Exception as e:
+                Logger().error("Error while importing zipcodes: " + str(e))
