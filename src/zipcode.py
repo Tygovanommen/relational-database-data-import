@@ -5,12 +5,11 @@ from src.logger import Logger
 
 
 class ZipCode:
-    # Filename + extension
-    filename = None
 
     # Constructor to setup shop importer
     def __init__(self, filename):
         self.filename = filename
+        self.db = Database()
 
     # Process shop file
     def process(self):
@@ -18,8 +17,6 @@ class ZipCode:
         if os.path.isfile(filepath):
 
             print("Zipcode process started")
-
-            db = Database()
 
             conn = pyodbc.connect(
                 r'Driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=' + filepath)
@@ -31,7 +28,7 @@ class ZipCode:
 
             # Create mass import
             print("Importing zipcode data")
-            dbCursor = db.get_cursor()
+            dbCursor = self.db.get_cursor()
             dbCursor.fast_executemany = True
 
             # Create mass import
@@ -40,4 +37,4 @@ class ZipCode:
                 dbCursor.executemany(query, data)
                 dbCursor.commit()
             except Exception as e:
-                Logger().error("Error while importing zipcodes: " + str(e))
+                Logger().errors['Zipcodes'] = "Error while importing zipcodes: " + str(e)

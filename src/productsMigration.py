@@ -1,5 +1,4 @@
 from src.database import Database
-import pyodbc
 
 
 class ProductsMigration:

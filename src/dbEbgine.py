@@ -1,33 +1,20 @@
-import configparser
-import os
 from sqlalchemy import create_engine
-from src.database import Database
+
+from src.configParser import ConfigParser
 
 
-# Read config file
-def __get_config():
-    # Parse file
-    config = configparser.ConfigParser()
-    config.read(os.getcwd() + "/config.ini")
+class dbEbgine:
 
-    # Create array with config values
-    values = {}
-    values["Server"] = config.get('database', 'Server')
-    values["Database"] = config.get('database', 'Database')
-    values["Username"] = config.get('database', 'Username')
-    values["Password"] = config.get('database', 'Password')
+    def __init__(self):
+        config = ConfigParser().get_config()
 
-    return values
+        server = config["Server"]
+        database = config["Database"]
+        username = config["Username"]
+        password = config["Password"]
 
+        self.engine = create_engine(f'mssql+pyodbc://{username}:{password}@{server}/{database}?driver=SQL Server')
 
-def get_db_engine():
-    config = __get_config()
-
-    server = config["Server"]
-    database = config["Database"]
-    username = config["Username"]
-    password = config["Password"]
-
-    engine = create_engine(
-        f'mssql+pyodbc://{username}:{password}@{server}/{database}?driver=SQL Server')
-    return engine
+    # Get engine connection
+    def get_db_engine(self):
+        return self.engine
