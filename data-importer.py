@@ -25,12 +25,19 @@ def main():
         ZipCode("Postcode tabel.mdb").process()
         Shop("Winkels Mario.txt").process()
 
+        # Move files to 'complete' directory
+        for file in files:
+            move_file(file)
+
+        Logger().commit_errors()
         Logger().info("Import completed")
 
 
 # Move file from watch to complete directory
 def move_file(filename):
-    shutil.move(os.getcwd() + "/watch/" + filename, os.getcwd() + "/complete/" + filename)
+    dir_from = os.getcwd() + "/watch/" + filename
+    dir_to = os.getcwd() + "/complete/" + filename
+    shutil.move(dir_from, dir_to)
 
 
 # Start script

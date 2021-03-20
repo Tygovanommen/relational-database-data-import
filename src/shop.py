@@ -6,8 +6,6 @@ from src.logger import Logger
 
 
 class Shop:
-    # Filename + extension
-    filename = None
 
     # Constructor to setup shop importer
     def __init__(self, filename):
@@ -49,60 +47,6 @@ class Shop:
 
             return lines
 
-    # Import data to database
-    def __import_adress(self, lines):
-
-        # Create cursor queries
-        header = "INSERT INTO adress (zipcode, house_nr, house_nr_addition) VALUES "
-
-        cursor = self.db.get_connection().cursor()
-        exceptions = 0
-        for key, value in lines.items():
-
-            # Get adres info
-            row = value[:-1].split(',')
-            adresInfo = self.__get_adres_info(row)
-
-            query = header + "('" + adresInfo['zipcode'] + "', '" + adresInfo['house_nr'] + "', '" + adresInfo[
-                'house_ad'] + "')"
-
-            try:
-                cursor.execute(query)
-            except Exception as e:
-                exceptions += 1
-
-        cursor.commit()
-        if exceptions > 0:
-            Logger().error(str(exceptions) + " exceptions found while importing addresses")
-
-
-    def __import_restaurant(self, lines):
-
-        # Create cursor queries
-        header = "INSERT INTO restaurant (adress_id, name, phone_nr) VALUES "
-
-        cursor = self.db.get_connection().cursor()
-        exceptions = 0
-        for key, value in lines.items():
-
-            # Get adres info
-            row = value[:-1].split(',')
-            adresInfo = self.__get_adres_info(row)
-
-            query = header + "((SELECT id FROM adress WHERE zipcode = '" + adresInfo['zipcode'] + "' AND house_nr = '" + \
-                     adresInfo['house_nr'] + "' AND house_nr_addition = '" + adresInfo[
-                         'house_ad'] + "'), '" + row[0] + "', " + adresInfo['phone_nr'] + ")"
-
-            try:
-                cursor.execute(query)
-            except Exception as e:
-                exceptions += 1
-
-        cursor.commit()
-        if exceptions > 0:
-            Logger().error(str(exceptions) + " exceptions found while importing restaurants")
-
-
     # Seperate housenumber from addition info
     def __get_adres_info(self, row):
         response = dict()
@@ -121,3 +65,59 @@ class Shop:
             response['house_ad'] = ""
 
         return response
+
+    # Import data to database
+    def __import_adress(self, lines):
+
+        # Create cursor queries
+        header = "INSERT INTO adress (zipcode, house_nr, house_nr_addition) VALUES "
+
+        cursor = self.db.get_connection().cursor()
+        Logger().errors['Addresses'] = dict()
+        for key, value in lines.items():
+
+            # Get adres info
+            row = value[:-1].split(',')
+            adresInfo = self.__get_adres_info(row)
+
+            query = header + "('" + adresInfo['zipcode'] + "', '" + adresInfo['house_nr'] + "', '" + adresInfo[
+                'house_ad'] + "')"
+
+            try:
+                cursor.execute(query)
+            except Exception as e:
+                code = e.args[0]
+                if code in Logger().errors['Addresses']:
+                    Logger().errors['Addresses'][code] += 1
+                else:
+                    Logger().errors['Addresses'][code] = 1
+
+        cursor.commit()
+
+    def __import_restaurant(self, lines):
+
+        # Create cursor queries
+        header = "INSERT INTO restaurant (adress_id, name, phone_nr) VALUES "
+
+        cursor = self.db.get_connection().cursor()
+        Logger().errors['Restaurants'] = dict()
+        for key, value in lines.items():
+
+            # Get adres info
+            row = value[:-1].split(',')
+            addressInfo = self.__get_adres_info(row)
+
+            query = header + "((SELECT id FROM adress WHERE zipcode = '" + addressInfo[
+                'zipcode'] + "' AND house_nr = '" + addressInfo['house_nr'] + "' AND house_nr_addition = '" + \
+                    addressInfo['house_ad'] + "'), '" + row[0] + "', " + addressInfo['phone_nr'] + ")"
+
+            try:
+                cursor.execute(query)
+            except Exception as e:
+                code = e.args[0]
+                if code in Logger().errors['Restaurants']:
+                    Logger().errors['Restaurants'][code] += 1
+                else:
+                    Logger().errors['Restaurants'][code] = 1
+
+        cursor.commit()

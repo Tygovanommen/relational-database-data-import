@@ -1,1 +1,1 @@
-import src.dbEbgine
+from src.dbEbgine import dbEbgine
