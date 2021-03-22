@@ -11,6 +11,7 @@ class PizzaCrustsStagingTableBuilder:
         self.filename = filename
 
     def process(self):
+        print('Building Pizza Crusts Staging Table')
         filepath = os.getcwd() + '/watch/' + self.filename
         if os.path.isfile(filepath):
             engine = src.dbEbgine().get_db_engine()
@@ -18,3 +19,5 @@ class PizzaCrustsStagingTableBuilder:
             pizza_bodems_data_frame = pd.read_excel(filepath)
 
             pizza_bodems_data_frame.to_sql('pizza_bodems_ghost', con=engine, if_exists='replace')
+            print('Pizza Crusts staging table done\n')
+

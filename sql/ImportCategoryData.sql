@@ -6,9 +6,9 @@ DECLARE
 
 DECLARE
     cursor_categorie CURSOR
-        FOR SELECT DISTINCT categorie,
-                            subcategorie
-            FROM pizza_ingredienten_ghost
+        FOR SELECT DISTINCT pi.categorie AS category, pi.subcategorie AS subcategory
+            FROM pizza_ingredienten_ghost pi
+            UNION SELECT op.categorie, op.subcategorie from overige_producten_ghost op
 
     OPEN cursor_categorie
 

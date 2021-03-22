@@ -9,6 +9,7 @@ from src.pizzaCrustsStagingTableBuilder import PizzaCrustsStagingTableBuilder
 from src.productsMigration import ProductsMigration
 from src.zipcode import ZipCode
 from src.muncipality import Muncipality
+from src.otherProductsStagingTableBuilder import OtherProductsStagingTableBuilder
 
 
 def main():
@@ -20,6 +21,7 @@ def main():
         PizzaIngredientsStagingTableBuilder('pizza_ingredienten.xlsx').process()
         ExtraIngredientsStagingTableBuilder('Extra Ingredienten.csv').process()
         PizzaCrustsStagingTableBuilder('pizzabodems.xlsx').process()
+        OtherProductsStagingTableBuilder('Overige Producten.xlsx').process()
         ProductsMigration().migrate_product_data()
         Muncipality("Postcode tabel.mdb").process()
         ZipCode("Postcode tabel.mdb").process()
