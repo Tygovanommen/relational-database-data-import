@@ -40,7 +40,7 @@ DECLARE
         BEGIN
             BEGIN TRANSACTION
                 BEGIN TRY
-                    IF NOT EXISTS(SELECT @IngredientName FROM product WHERE product_name = @IngredientName)
+                    IF NOT EXISTS(SELECT * FROM product WHERE product_name = @IngredientName AND category_id = @IngredientCategoryId)
                         BEGIN
                             EXEC InsertNewProduct
                                  @IngredientCategoryId,

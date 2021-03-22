@@ -4,7 +4,6 @@ DECLARE
     @PizzaName             VARCHAR(255),
     @PizzaPrice            DECIMAL(4, 2),
     @PizzaDescription      VARCHAR(255),
-    @SubCategory           VARCHAR(255),
     @SubCategoryId         INT,
     @PizzaTaxRateId        INT,
     @Spicy                 BIT,
@@ -52,7 +51,7 @@ DECLARE @cursor_pizza_ingredienten CURSOR
     FETCH NEXT FROM [@cursor_pizza] INTO @PizzaName, @PizzaPrice, @PizzaDescription, @SubCategoryId, @Spicy, @Vegetarian, @SauceName
     WHILE @@FETCH_STATUS = 0
         BEGIN
-            IF NOT EXISTS(SELECT @PizzaName FROM product WHERE product_name = @PizzaName)
+            IF NOT EXISTS(SELECT * FROM product WHERE product_name = @PizzaName AND category_id = @SubCategoryId)
                 BEGIN
                     SET @SauceProductId = (SELECT id FROM product WHERE product_name = @SauceName)
 
@@ -83,7 +82,7 @@ DECLARE @cursor_pizza_ingredienten CURSOR
                                         FROM product
                                                  RIGHT JOIN pizza_ingredienten_ghost pig
                                                             ON product.product_name = pig.ingredientnaam
-                                        WHERE productnaam = @PizzaName
+                                        WHERE productnaam = @PizzaName AND NOT @SubCategoryId = category_id
 
                             OPEN @cursor_pizza_ingredienten
                             FETCH NEXT FROM @cursor_pizza_ingredienten INTO @PizzaIngredientId, @PizzaIngredientAmount
@@ -104,7 +103,7 @@ DECLARE @cursor_pizza_ingredienten CURSOR
                         END CATCH
                 END
 
-            FETCH NEXT FROM [@cursor_pizza] INTO @PizzaName, @PizzaPrice, @PizzaDescription, @SubCategory, @Spicy, @Vegetarian, @SauceName
+            FETCH NEXT FROM [@cursor_pizza] INTO @PizzaName, @PizzaPrice, @PizzaDescription, @SubCategoryId, @Spicy, @Vegetarian, @SauceName
         END
 
     CLOSE [@cursor_pizza]

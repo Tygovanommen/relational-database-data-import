@@ -16,6 +16,7 @@ class PizzaIngredientsStagingTableBuilder:
     def __create_staging_stable(self):
         filepath = os.getcwd() + '/watch/' + self.filename
         if os.path.isfile(filepath):
+            print('Building Pizza Ingredients Staging Table')
             engine = src.dbEbgine().get_db_engine()
             pizza_ingredienten_data_frame = pd.read_excel(filepath)
             pizza_ingredienten_data_frame = pizza_ingredienten_data_frame.loc[:,
@@ -38,3 +39,4 @@ class PizzaIngredientsStagingTableBuilder:
             pizza_ingredienten_data_frame['vegetarisch'] = pizza_ingredienten_data_frame['vegetarisch'].astype('bool')
 
             pizza_ingredienten_data_frame.to_sql('pizza_ingredienten_ghost', con=engine, if_exists='replace')
+            print('Pizza Ingredients staging table done\n')

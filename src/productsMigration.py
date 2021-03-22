@@ -11,10 +11,11 @@ class ProductsMigration:
         # db.execute("exec ImportSauceData")
         # db.execute("exec ImportCrustData")
         # db.execute("exec ImportPizzaData")
-
+        print('Starting products staging table data migration to target')
         db.execute("SET NOCOUNT ON exec ImportCategoryData")
         db.execute("SET NOCOUNT ON exec ImportIngredientData")
         db.execute("SET NOCOUNT ON exec ImportSauceData")
         db.execute("SET NOCOUNT ON exec ImportCrustData")
         db.execute("exec ImportPizzaData")
-
+        db.execute("exec ImportOtherProductData")
+        print('products data migration to target done\n')

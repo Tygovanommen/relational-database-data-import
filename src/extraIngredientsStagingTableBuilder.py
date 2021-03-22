@@ -11,6 +11,7 @@ class ExtraIngredientsStagingTableBuilder:
         self.filename = filename
 
     def process(self):
+        print('Building Extra Ingredients Staging Table')
         filepath = os.getcwd() + '/watch/' + self.filename
         if os.path.isfile(filepath):
             engine = src.dbEbgine().get_db_engine()
@@ -23,4 +24,5 @@ class ExtraIngredientsStagingTableBuilder:
             ingredienten_date_frame['Ingredient'] = ingredienten_date_frame['Ingredient'].str.title()
 
             ingredienten_date_frame.to_sql('extra_ingredienten_ghost', con=engine, if_exists='replace')
+            print('Extra Ingredients staging table done\n')
 
