@@ -15,6 +15,7 @@ class Database:
                 'DRIVER={SQL Server};SERVER=' + config["Server"] + ';DATABASE=' + config[
                     "Database"] + ';UID=' + config["Username"] + ';PWD=' + config["Password"])
 
+
             self.cursor = self.conn.cursor()
         except pyodbc.Error as ex:
             Logger().error("Something went wrong connecting to database: " + ex.args[1])
