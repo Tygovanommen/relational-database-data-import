@@ -31,7 +31,6 @@ def main():
         # for file in files:
         #     move_file(file)
 
-
         Logger().commit_errors()
         # Logger().info("Import completed")
 

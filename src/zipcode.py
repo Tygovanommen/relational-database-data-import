@@ -32,8 +32,7 @@ class ZipCode:
             dbCursor.fast_executemany = True
 
             # Create ghost table
-            ghostTableQuery = "IF OBJECT_ID('zipcode_ghost') IS NOT NULL DROP TABLE zipcode_ghost; " \
-                              "CREATE TABLE zipcode_ghost (" \
+            ghostTableQuery = "CREATE TABLE zipcode_ghost (" \
                               "zipcode          varchar(6)   not null," \
                               "series_index     bit          not null," \
                               "breakpoint_from  int          not null," \
