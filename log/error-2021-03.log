@@ -43,3 +43,7 @@
                               Violating character is removed and resulting price will be migrated to target.
 (ERROR) 28-Mar-21 12:28:28 - Exception '23000' found 145 times importing Restaurants
 
+(ERROR) 29-Mar-21 13:21:29 - Price conversion error found in: Extra Ingredienten.csv
+                                 Ingredient Violating Character
+                              21     Salami                 [d]
+                              Violating character is removed and resulting price will be migrated to target.
