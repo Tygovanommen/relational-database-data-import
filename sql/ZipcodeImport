@@ -1,6 +1,5 @@
 CREATE PROCEDURE zipcode_import as
 
-    IF OBJECT_ID('zipcode_ghost') IS NOT NULL
-        INSERT INTO zipcode
-        SELECT * FROM zipcode_ghost
+    INSERT INTO zipcode
+    SELECT * FROM zipcode_ghost
 go
