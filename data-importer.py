@@ -18,7 +18,7 @@ def main():
     if files:
 
         # Start processing
-        PizzaIngredientsStagingTableBuilder('pizza_ingredienten.xlsx').process()
+        PizzaIngredientsStagingTableBuilder('pizza_ingredienten.xlsx', 'Extra Ingredienten.csv').process()
         ExtraIngredientsStagingTableBuilder('Extra Ingredienten.csv').process()
         PizzaCrustsStagingTableBuilder('pizzabodems.xlsx').process()
         OtherProductsStagingTableBuilder('Overige Producten.xlsx').process()
@@ -27,9 +27,9 @@ def main():
         ZipCode("Postcode tabel.mdb").process()
         Shop("Winkels Mario.txt").process()
 
-        # Move files to 'complete' directory
-        for file in files:
-            move_file(file)
+        # # Move files to 'complete' directory
+        # for file in files:
+        #     move_file(file)
 
         Logger().commit_errors()
         Logger().info("Import completed")

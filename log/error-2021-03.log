@@ -8,3 +8,5 @@
 (ERROR) 22-Mar-21 20:17:51 - ('42S02', "[42S02] [Microsoft][ODBC SQL Server Driver][SQL Server]Invalid object name 'category'. (208) (SQLExecDirectW)")
 (ERROR) 22-Mar-21 20:17:51 - ('42S02', "[42S02] [Microsoft][ODBC SQL Server Driver][SQL Server]Invalid object name 'category'. (208) (SQLExecDirectW)")
 (ERROR) 22-Mar-21 20:17:51 - ('42S02', "[42S02] [Microsoft][ODBC SQL Server Driver][SQL Server]Invalid object name 'category'. (208) (SQLExecDirectW)")
+(ERROR) 29-Mar-21 13:07:24 - Exception '23000' found 145 times importing Restaurants
+(ERROR) 29-Mar-21 13:08:03 - Exception '42S02' found 145 times importing Restaurants
