@@ -13,18 +13,19 @@ DECLARE
     @CrustProductId        INT,
     @SauceProductId        INT,
     @PizzaIngredientId     INT,
-    @PizzaIngredientAmount TINYINT
+    @PizzaIngredientAmount TINYINT,
+    @PizzaIngredientName   VARCHAR(255)
 
 -- Cursor for grabbing result set from pizza ingredienten staging table needed to fill target pizza product table
 DECLARE
     [@cursor_pizza] CURSOR
-        FOR SELECT productnaam,
-                   prijs,
-                   productomschrijving,
-                   id AS subcategory_id,
-                   spicy,
-                   vegetarisch,
-                   pizzasaus_standaard
+        FOR SELECT DISTINCT productnaam,
+                            prijs,
+                            productomschrijving,
+                            id AS subcategory_id,
+                            spicy,
+                            vegetarisch,
+                            pizzasaus_standaard
             FROM pizza_ingredienten_ghost
                      LEFT JOIN category cat on subcategorie = category_name
 
@@ -78,19 +79,31 @@ DECLARE @cursor_pizza_ingredienten CURSOR
                             -- Cursor for grabbing ingredient data from staging table to fill pizza_ingredient link table.
                             SET
                                 @cursor_pizza_ingredienten = CURSOR
-                                    FOR SELECT id, aantalkeer_ingredient
+                                    FOR SELECT id, aantalkeer_ingredient, ingredientnaam
                                         FROM product
                                                  RIGHT JOIN pizza_ingredienten_ghost pig
                                                             ON product.product_name = pig.ingredientnaam
-                                        WHERE productnaam = @PizzaName AND NOT @SubCategoryId = category_id
+                                        WHERE productnaam = @PizzaName
+                                          AND (NOT @SubCategoryId = category_id OR category_id IS NULL)
 
                             OPEN @cursor_pizza_ingredienten
-                            FETCH NEXT FROM @cursor_pizza_ingredienten INTO @PizzaIngredientId, @PizzaIngredientAmount
+                            FETCH NEXT FROM @cursor_pizza_ingredienten INTO @PizzaIngredientId, @PizzaIngredientAmount, @PizzaIngredientName
                             WHILE @@FETCH_STATUS = 0
                                 BEGIN
-                                    INSERT INTO pizza_ingredient (ingredient_product_id, pizza_product_id, amount)
-                                    VALUES (@PizzaIngredientId, @PizzaProductId, @PizzaIngredientAmount)
-                                    FETCH NEXT FROM @cursor_pizza_ingredienten INTO @PizzaIngredientId, @PizzaIngredientAmount
+                                    -- Throw error if ingredient not found by name in ingredient table.
+                                    IF (@PizzaIngredientId IS NULL)
+                                        BEGIN
+                                            DECLARE @ErrMessage VARCHAR(MAX) = 'Error importing PizzaIngredient: ' + @PizzaIngredientName + '. for pizza: ' + @PizzaName + '. No such product Id.'
+                                            ;THROW 150000, @ErrMessage, 1
+                                        END
+                                    ELSE
+                                        BEGIN
+                                            INSERT INTO pizza_ingredient (ingredient_product_id, pizza_product_id, amount)
+
+                                            VALUES (@PizzaIngredientId, @PizzaProductId, @PizzaIngredientAmount)
+                                            FETCH NEXT FROM @cursor_pizza_ingredienten INTO @PizzaIngredientId, @PizzaIngredientAmount, @PizzaIngredientName
+                                        END
+
                                 END
                             CLOSE @cursor_pizza_ingredienten
                             DEALLOCATE @cursor_pizza_ingredienten
@@ -98,11 +111,13 @@ DECLARE @cursor_pizza_ingredienten CURSOR
                         END TRY
                         BEGIN CATCH
                             ROLLBACK TRANSACTION
-                            PRINT ERROR_MESSAGE()
-                            PRINT ERROR_PROCEDURE()
+                            DECLARE @ErrorMessage VARCHAR(MAX) = ERROR_MESSAGE()
+                            DECLARE @ErrorProcedure VARCHAR(255) = ERROR_PROCEDURE()
+                            DECLARE @ErrorRowSource INT = (SELECT [index] from pizza_ingredienten_ghost where ingredientnaam = @PizzaIngredientName AND productnaam = @PizzaName)
+                            EXEC InsertNewError @ErrorMessage, @ErrorProcedure, 'pizza_ingredienten_ghost', @ErrorRowSource, 'product'
+
                         END CATCH
                 END
-
             FETCH NEXT FROM [@cursor_pizza] INTO @PizzaName, @PizzaPrice, @PizzaDescription, @SubCategoryId, @Spicy, @Vegetarian, @SauceName
         END
 
