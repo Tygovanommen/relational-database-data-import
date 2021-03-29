@@ -24,7 +24,7 @@ def main():
         # ExtraIngredients('Extra Ingredienten.csv').process()
         # PizzaCrusts('pizzabodems.xlsx').process()
         #Shop("Winkels Mario.txt").process()
-        OrderData('MarioOrderData01_10000.csv').process()
+        OrderData('MarioOrderData02_10000.csv').process()
 
         Logger().info("Import complete")
     else:

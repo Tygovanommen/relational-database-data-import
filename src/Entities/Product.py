@@ -55,10 +55,23 @@ def getSauceByName(database, sauceName):
 
         return None
 
+otherProductDict = {}
 
 def getOtherProductIdByName(database, productName):
-    # TODO
-    return None
+    productName = productName.upper()
+    if productName in otherProductDict:
+        return otherProductDict.get(productName)
+    with database.cursor as cursor:
+        query = """SELECT product.id
+                    FROM product
+                    WHERE product.product_name = ?"""
+
+        args = (productName)
+        for row in cursor.execute(query, args).fetchall():
+            otherProductDict[productName] = row.id
+            return row.id
+
+        return None
 
 
 ingredientDict = {}

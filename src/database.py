@@ -8,12 +8,16 @@ from src.logger import Logger
 class Database:
     cursor = conn = None
 
-    def __init__(self):
+    def __init__(self, local=False):
         config = self.__get_config()
         try:
-            self.conn = pyodbc.connect(
-                'DRIVER={SQL Server};SERVER=' + config["Server"] + ';DATABASE=' + config[
-                    "Database"] + ';UID=' + config["Username"] + ';PWD=' + config["Password"])
+            if not local:
+                self.conn = pyodbc.connect(
+                    'DRIVER={SQL Server};SERVER=' + config["Server"] + ';DATABASE=' + config[
+                        "Database"] + ';UID=' + config["Username"] + ';PWD=' + config["Password"])
+            else:
+                self.conn = pyodbc.connect('Trusted_Connection=yes', driver = '{SQL Server}',
+                          server = '.', database = 'dbi163178')
 
 
             self.cursor = self.conn.cursor()
