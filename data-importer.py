@@ -23,16 +23,17 @@ def main():
         PizzaCrustsStagingTableBuilder('pizzabodems.xlsx').process()
         OtherProductsStagingTableBuilder('Overige Producten.xlsx').process()
         ProductsMigration().migrate_product_data()
-        Muncipality("Postcode tabel.mdb").process()
-        ZipCode("Postcode tabel.mdb").process()
-        Shop("Winkels Mario.txt").process()
+        # Muncipality("Postcode tabel.mdb").process()
+        # ZipCode("Postcode tabel.mdb").process()
+        # Shop("Winkels Mario.txt").process()
 
         # # Move files to 'complete' directory
         # for file in files:
         #     move_file(file)
 
+
         Logger().commit_errors()
-        Logger().info("Import completed")
+        # Logger().info("Import completed")
 
 
 # Move file from watch to complete directory

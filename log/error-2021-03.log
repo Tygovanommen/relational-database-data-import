@@ -1,12 +1,45 @@
-(ERROR) 22-Mar-21 20:04:48 - ('42S02', "[42S02] [Microsoft][ODBC SQL Server Driver][SQL Server]Invalid object name 'category'. (208) (SQLExecDirectW)")
-(ERROR) 22-Mar-21 20:04:48 - ('42S02', "[42S02] [Microsoft][ODBC SQL Server Driver][SQL Server]Invalid object name 'category'. (208) (SQLExecDirectW)")
-(ERROR) 22-Mar-21 20:04:48 - ('42S02', "[42S02] [Microsoft][ODBC SQL Server Driver][SQL Server]Invalid object name 'category'. (208) (SQLExecDirectW)")
-(ERROR) 22-Mar-21 20:04:48 - ('42S02', "[42S02] [Microsoft][ODBC SQL Server Driver][SQL Server]Invalid object name 'category'. (208) (SQLExecDirectW)")
-(ERROR) 22-Mar-21 20:04:48 - ('42S02', "[42S02] [Microsoft][ODBC SQL Server Driver][SQL Server]Invalid object name 'category'. (208) (SQLExecDirectW)")
-(ERROR) 22-Mar-21 20:17:51 - ('42S02', "[42S02] [Microsoft][ODBC SQL Server Driver][SQL Server]Invalid object name 'category'. (208) (SQLExecDirectW)")
-(ERROR) 22-Mar-21 20:17:51 - ('42S02', "[42S02] [Microsoft][ODBC SQL Server Driver][SQL Server]Invalid object name 'category'. (208) (SQLExecDirectW)")
-(ERROR) 22-Mar-21 20:17:51 - ('42S02', "[42S02] [Microsoft][ODBC SQL Server Driver][SQL Server]Invalid object name 'category'. (208) (SQLExecDirectW)")
-(ERROR) 22-Mar-21 20:17:51 - ('42S02', "[42S02] [Microsoft][ODBC SQL Server Driver][SQL Server]Invalid object name 'category'. (208) (SQLExecDirectW)")
-(ERROR) 22-Mar-21 20:17:51 - ('42S02', "[42S02] [Microsoft][ODBC SQL Server Driver][SQL Server]Invalid object name 'category'. (208) (SQLExecDirectW)")
-(ERROR) 29-Mar-21 13:07:24 - Exception '23000' found 145 times importing Restaurants
-(ERROR) 29-Mar-21 13:08:03 - Exception '42S02' found 145 times importing Restaurants
+
+(ERROR) 23-Mar-21 12:37:31 - Price conversion error found in: Extra Ingredienten.csv
+                                 Ingredient Violating Character
+                              21     Salami                 [d]
+                              Violating character is removed and resulting price will be migrated to target.
+(ERROR) 23-Mar-21 12:41:15 - Price conversion error found in: Extra Ingredienten.csv
+                                 Ingredient Violating Character
+                              21     Salami                 [d]
+                              Violating character is removed and resulting price will be migrated to target.
+(ERROR) 23-Mar-21 12:42:00 - Price conversion error found in: Extra Ingredienten.csv
+                                 Ingredient Violating Character
+                              21     Salami                 [d]
+                              Violating character is removed and resulting price will be migrated to target.
+(ERROR) 23-Mar-21 12:43:34 - Price conversion error found in: Extra Ingredienten.csv
+                                 Ingredient Violating Character
+                              21     Salami                 [d]
+                              Violating character is removed and resulting price will be migrated to target.
+(ERROR) 23-Mar-21 12:44:03 - Price conversion error found in: Extra Ingredienten.csv
+                                 Ingredient Violating Character
+                              21     Salami                 [d]
+                              Violating character is removed and resulting price will be migrated to target.
+(ERROR) 23-Mar-21 12:44:08 - ('42S02', "[42S02] [Microsoft][ODBC SQL Server Driver][SQL Server]Invalid object name 'category'. (208) (SQLExecDirectW)")
+(ERROR) 23-Mar-21 12:44:08 - ('42S02', "[42S02] [Microsoft][ODBC SQL Server Driver][SQL Server]Invalid object name 'category'. (208) (SQLExecDirectW)")
+(ERROR) 23-Mar-21 12:44:08 - ('42S02', "[42S02] [Microsoft][ODBC SQL Server Driver][SQL Server]Invalid object name 'category'. (208) (SQLExecDirectW)")
+(ERROR) 23-Mar-21 12:44:08 - ('42S02', "[42S02] [Microsoft][ODBC SQL Server Driver][SQL Server]Invalid object name 'category'. (208) (SQLExecDirectW)")
+(ERROR) 23-Mar-21 12:44:08 - ('42S02', "[42S02] [Microsoft][ODBC SQL Server Driver][SQL Server]Invalid object name 'category'. (208) (SQLExecDirectW)")
+(ERROR) 23-Mar-21 12:44:08 - ('42S02', "[42S02] [Microsoft][ODBC SQL Server Driver][SQL Server]Invalid object name 'category'. (208) (SQLExecDirectW)")
+(ERROR) 23-Mar-21 12:44:56 - Price conversion error found in: Extra Ingredienten.csv
+                                 Ingredient Violating Character
+                              21     Salami                 [d]
+                              Violating character is removed and resulting price will be migrated to target.
+(ERROR) 23-Mar-21 12:46:27 - Price conversion error found in: Extra Ingredienten.csv
+                                 Ingredient Violating Character
+                              21     Salami                 [d]
+                              Violating character is removed and resulting price will be migrated to target.
+(ERROR) 23-Mar-21 14:40:35 - Price conversion error found in: Extra Ingredienten.csv
+                                 Ingredient Violating Character
+                              21     Salami                 [d]
+                              Violating character is removed and resulting price will be migrated to target.
+(ERROR) 28-Mar-21 12:28:13 - Price conversion error found in: Extra Ingredienten.csv
+                                 Ingredient Violating Character
+                              21     Salami                 [d]
+                              Violating character is removed and resulting price will be migrated to target.
+(ERROR) 28-Mar-21 12:28:28 - Exception '23000' found 145 times importing Restaurants
+

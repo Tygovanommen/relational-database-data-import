@@ -16,6 +16,6 @@ class ProductsMigration:
         db.execute("SET NOCOUNT ON exec ImportIngredientData")
         db.execute("SET NOCOUNT ON exec ImportSauceData")
         db.execute("SET NOCOUNT ON exec ImportCrustData")
-        db.execute("exec ImportPizzaData")
-        db.execute("exec ImportOtherProductData")
+        # db.execute("SET NOCOUNT ON exec ImportPizzaData")
+        db.execute("SET NOCOUNT ON exec ImportOtherProductData")
         print('products data migration to target done\n')
