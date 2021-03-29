@@ -2,19 +2,22 @@ import os
 
 import pandas as pd
 import src
+from src.dataFrameStringCompare import DataFrameStringCompare
 
 
 class PizzaIngredientsStagingTableBuilder:
 
     # Constructor to setup shop importer
-    def __init__(self, filename):
-        self.filename = filename
+    def __init__(self, extra_ingredients_filename, pizza_ingredients_filename):
+        self.extra_ingredients_filename = extra_ingredients_filename
+        self.pizza_ingredients_filename = pizza_ingredients_filename
+        self.clean_ingredients_data = True
 
     def process(self):
         self.__create_staging_stable()
 
     def __create_staging_stable(self):
-        filepath = os.getcwd() + '/watch/' + self.filename
+        filepath = os.getcwd() + '/watch/' + self.extra_ingredients_filename
         if os.path.isfile(filepath):
             print('Building Pizza Ingredients Staging Table')
             engine = src.dbEbgine().get_db_engine()
@@ -25,7 +28,13 @@ class PizzaIngredientsStagingTableBuilder:
             # uniform capitalization of ingredient names.
             pizza_ingredienten_data_frame['ingredientnaam'] = pizza_ingredienten_data_frame['ingredientnaam'].str.title()
 
-            pizza_ingredienten_data_frame['ingredientnaam'] = pizza_ingredienten_data_frame['ingredientnaam'].str.replace('Chicken Kebak', 'Chicken Kebab') #TODO: Remove this. Log errors, fix in DB.
+            if self.clean_ingredients_data:
+                filepath = os.getcwd() + '/watch/' + self.pizza_ingredients_filename
+                ingredienten_date_frame = pd.read_csv(filepath, sep=';')
+                ingredienten_date_frame['Ingredient'] = ingredienten_date_frame['Ingredient'].str.title()
+
+                DataFrameStringCompare(90, pizza_ingredienten_data_frame, 'ingredientnaam', ingredienten_date_frame, 'Ingredient').compare_replace_dataframe_string()
+
             # TODO: make own helper class.
             pizza_ingredienten_data_frame['spicy'] = pizza_ingredienten_data_frame['spicy'].str.replace('Ja', '1')
             pizza_ingredienten_data_frame['spicy'] = pizza_ingredienten_data_frame['spicy'].str.replace('Nee', '0')
@@ -40,3 +49,5 @@ class PizzaIngredientsStagingTableBuilder:
 
             pizza_ingredienten_data_frame.to_sql('pizza_ingredienten_ghost', con=engine, if_exists='replace')
             print('Pizza Ingredients staging table done\n')
+
+

@@ -1,3 +1,4 @@
+
 (ERROR) 23-Mar-21 12:37:31 - Price conversion error found in: Extra Ingredienten.csv
                                  Ingredient Violating Character
                               21     Salami                 [d]
@@ -41,3 +42,4 @@
                               21     Salami                 [d]
                               Violating character is removed and resulting price will be migrated to target.
 (ERROR) 28-Mar-21 12:28:28 - Exception '23000' found 145 times importing Restaurants
+
