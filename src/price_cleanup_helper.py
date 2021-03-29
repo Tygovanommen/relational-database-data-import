@@ -26,7 +26,6 @@ class PriceCleanupHelper:
                                            + "\nViolating character is removed and resulting price will be migrated to target.",
                                            30)
 
-            print(error_string)
             Logger().error(error_string)
 
         # Remove alphanumeric characters from prices.

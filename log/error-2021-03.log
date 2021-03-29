@@ -47,3 +47,7 @@
                                  Ingredient Violating Character
                               21     Salami                 [d]
                               Violating character is removed and resulting price will be migrated to target.
+(ERROR) 29-Mar-21 13:58:35 - String similarity of > 90 found. Chicken Kebak replaced with: Chicken Kebab at row: 45
+
+(ERROR) 29-Mar-21 14:00:44 - String similarity of > 90 found. Chicken Kebak replaced with: Chicken Kebab at row: 45
+ tested dataset: Extra Ingredienten.csv control dataset: pizza_ingredienten.xlsx

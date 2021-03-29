@@ -3,6 +3,7 @@ import os
 import pandas as pd
 import src
 from src.dataFrameStringCompare import DataFrameStringCompare
+from src.logger import Logger
 
 
 class PizzaIngredientsStagingTableBuilder:
@@ -33,7 +34,11 @@ class PizzaIngredientsStagingTableBuilder:
                 ingredienten_date_frame = pd.read_csv(filepath, sep=';')
                 ingredienten_date_frame['Ingredient'] = ingredienten_date_frame['Ingredient'].str.title()
 
-                DataFrameStringCompare(90, pizza_ingredienten_data_frame, 'ingredientnaam', ingredienten_date_frame, 'Ingredient').compare_replace_dataframe_string()
+                error_message = DataFrameStringCompare(90, pizza_ingredienten_data_frame, 'ingredientnaam', ingredienten_date_frame, 'Ingredient').compare_replace_dataframe_string()
+                if(error_message is not None):
+                    error_message = error_message + " from dataset: " + self.pizza_ingredients_filename + ". control dataset: " + self.extra_ingredients_filename
+                    Logger().error(error_message)
+
 
             # TODO: make own helper class.
             pizza_ingredienten_data_frame['spicy'] = pizza_ingredienten_data_frame['spicy'].str.replace('Ja', '1')
