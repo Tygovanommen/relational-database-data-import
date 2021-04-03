@@ -3,8 +3,7 @@ from datetime import datetime
 
 
 class Logger:
-
-    errors = dict()
+    error_log = info_log = None
 
     # Constructor to setup logger config
     def __init__(self):
@@ -36,9 +35,3 @@ class Logger:
     # Log info
     def info(self, message):
         self.info_log.info(message)
-
-    # Commit logs to file
-    def commit_errors(self):
-        for types, lists in self.errors.items():
-            for key, value in lists.items():
-                Logger().error("Exception '" + str(key) + "' found " + str(value) + " times importing " + types)

@@ -1,6 +1,9 @@
 import os
 import shutil
 
+from src.Entities import Product
+from src.Entities.Restaurant import getStoreByName
+from src.OrderData import OrderData
 from src.logger import Logger
 from src.shop import Shop
 from src.pizzaIngredientsStagingTableBuilder import PizzaIngredientsStagingTableBuilder
@@ -26,7 +29,10 @@ def main():
         Muncipality("Postcode tabel.mdb").process()
         ZipCode("Postcode tabel.mdb").process()
         Shop("Winkels Mario.txt").process()
-
+        OrderData("MarioOrderData01_10000.csv").process()
+        OrderData("MarioOrderData02_10000.csv").process()
+        OrderData("MarioOrderData03_10000.csv").process()
+        OrderData("MarioOrderData04_10000.csv").process()
         # # Move files to 'complete' directory
         # for file in files:
         #     move_file(file)
@@ -45,3 +51,5 @@ def move_file(filename):
 # Start script
 if __name__ == "__main__":
     main()
+
+
