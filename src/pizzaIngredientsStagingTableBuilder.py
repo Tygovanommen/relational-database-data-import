@@ -1,8 +1,10 @@
 import os
+import time
 
 import pandas as pd
 import src
 from src.dataFrameStringCompare import DataFrameStringCompare
+from src.database import Database
 from src.logger import Logger
 
 
@@ -15,10 +17,14 @@ class PizzaIngredientsStagingTableBuilder:
         self.clean_ingredients_data = True
 
     def process(self):
-        self.__create_staging_stable()
+        return self.__create_staging_stable()
+
 
     def __create_staging_stable(self):
         filepath = os.getcwd() + '/watch/' + self.extra_ingredients_filename
+        cursor = Database().get_connection().cursor()
+        start_time = round(time.time() * 1000)
+
         if os.path.isfile(filepath):
             print('Building Pizza Ingredients Staging Table')
             engine = src.dbEbgine().get_db_engine()
@@ -53,6 +59,14 @@ class PizzaIngredientsStagingTableBuilder:
             pizza_ingredienten_data_frame['vegetarisch'] = pizza_ingredienten_data_frame['vegetarisch'].astype('bool')
 
             pizza_ingredienten_data_frame.to_sql('pizza_ingredienten_ghost', con=engine, if_exists='replace')
-            print('Pizza Ingredients staging table done\n')
+
+            cursor.execute("select count(*) from pizza_ingredienten_ghost")
+            staging_table_count = cursor.fetchone()[0]
+            log_string = str(
+                'Pizza ingredients staging table done in ' + str(round(time.time() * 1000) - start_time) + ' ms;' + '\n'
+                + 'Inserted ' + str(staging_table_count) + ' out of ' + str(
+                    len(pizza_ingredienten_data_frame.index)) + ' rows into staging table. \n')
+            print(log_string)
+        return round(time.time() * 1000) - start_time
 
 

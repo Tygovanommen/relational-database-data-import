@@ -19,11 +19,17 @@ def main():
     if files:
 
         # Start processing
-        PizzaIngredientsStagingTableBuilder('pizza_ingredienten.xlsx', 'Extra Ingredienten.csv').process()
-        ExtraIngredientsStagingTableBuilder('Extra Ingredienten.csv').process()
-        PizzaCrustsStagingTableBuilder('pizzabodems.xlsx').process()
-        OtherProductsStagingTableBuilder('Overige Producten.xlsx').process()
-        ProductsMigration().migrate_product_data()
+        run_time = PizzaIngredientsStagingTableBuilder('pizza_ingredienten.xlsx', 'Extra Ingredienten.csv').process()
+        run_time += ExtraIngredientsStagingTableBuilder('Extra Ingredienten.csv').process()
+        run_time += PizzaCrustsStagingTableBuilder('pizzabodems.xlsx').process()
+        run_time += OtherProductsStagingTableBuilder('Overige Producten.xlsx').process()
+
+        print('All staging tables built in ' + str(run_time) + ' ms. \n')
+
+        run_time += ProductsMigration().migrate_product_data()
+
+        print('Product data migrated in ' + str(run_time) + ' milliseconds.\n')
+
         Muncipality("Postcode tabel.mdb").process()
         ZipCode("Postcode tabel.mdb").process()
         Shop("Winkels Mario.txt").process()
