@@ -1,0 +1,144 @@
+(ERROR) 10-Apr-21 13:22:05 - String similarity of > 90 found. Chicken Kebak replaced with: Chicken Kebab at row: 45
+ from dataset: Extra Ingredienten.csv. control dataset: pizza_ingredienten.xlsx
+(ERROR) 10-Apr-21 13:22:13 - String similarity of > 90 found. Chicken Kebak replaced with: Chicken Kebab at row: 45
+ from dataset: Extra Ingredienten.csv. control dataset: pizza_ingredienten.xlsx
+(ERROR) 10-Apr-21 13:22:27 - String similarity of > 90 found. Chicken Kebak replaced with: Chicken Kebab at row: 45
+ from dataset: Extra Ingredienten.csv. control dataset: pizza_ingredienten.xlsx
+(ERROR) 10-Apr-21 13:22:36 - String similarity of > 90 found. Chicken Kebak replaced with: Chicken Kebab at row: 45
+ from dataset: Extra Ingredienten.csv. control dataset: pizza_ingredienten.xlsx
+(ERROR) 10-Apr-21 13:22:41 - Price conversion error found in: Extra Ingredienten.csv
+                                 Ingredient Violating Character
+                              21     Salami                 [d]
+                              Violating character is removed and resulting price will be migrated to target.
+(ERROR) 10-Apr-21 13:22:46 - Product migration errors found: 
+                                 id                                                                                  error_message  error_procedure              source_table  source_row target_table
+                              0   1  Error importing PizzaIngredient: Chicken Kebak. for pizza: Chicken Kebab. No such product Id.  ImportPizzaData  pizza_ingredienten_ghost          45      product
+                              1   2        Error importing PizzaIngredient: Chicken Kebak. for pizza: Supreme. No such product Id.  ImportPizzaData  pizza_ingredienten_ghost          52      product
+(ERROR) 10-Apr-21 13:22:49 - Exception '42S02' found 145 times importing Restaurants
+(ERROR) 10-Apr-21 13:28:57 - String similarity of > 90 found. Chicken Kebak replaced with: Chicken Kebab at row: 45
+ from dataset: Extra Ingredienten.csv. control dataset: pizza_ingredienten.xlsx
+(ERROR) 10-Apr-21 13:29:02 - Price conversion error found in: Extra Ingredienten.csv
+                                 Ingredient Violating Character
+                              21     Salami                 [d]
+                              Violating character is removed and resulting price will be migrated to target.
+(ERROR) 10-Apr-21 13:43:22 - String similarity of > 90 found. Chicken Kebak replaced with: Chicken Kebab at row: 45
+ from dataset: Extra Ingredienten.csv. control dataset: pizza_ingredienten.xlsx
+(ERROR) 10-Apr-21 13:43:27 - Price conversion error found in: Extra Ingredienten.csv
+                                 Ingredient Violating Character
+                              21     Salami                 [d]
+                              Violating character is removed and resulting price will be migrated to target.
+(ERROR) 10-Apr-21 13:45:00 - String similarity of > 90 found. Chicken Kebak replaced with: Chicken Kebab at row: 45
+ from dataset: Extra Ingredienten.csv. control dataset: pizza_ingredienten.xlsx
+(ERROR) 10-Apr-21 13:45:04 - Price conversion error found in: Extra Ingredienten.csv
+                                 Ingredient Violating Character
+                              21     Salami                 [d]
+                              Violating character is removed and resulting price will be migrated to target.
+(ERROR) 10-Apr-21 13:45:51 - String similarity of > 90 found. Chicken Kebak replaced with: Chicken Kebab at row: 45
+ from dataset: Extra Ingredienten.csv. control dataset: pizza_ingredienten.xlsx
+(ERROR) 10-Apr-21 13:45:55 - Price conversion error found in: Extra Ingredienten.csv
+                                 Ingredient Violating Character
+                              21     Salami                 [d]
+                              Violating character is removed and resulting price will be migrated to target.
+(ERROR) 10-Apr-21 13:46:31 - String similarity of > 90 found. Chicken Kebak replaced with: Chicken Kebab at row: 45
+ from dataset: Extra Ingredienten.csv. control dataset: pizza_ingredienten.xlsx
+(ERROR) 10-Apr-21 13:46:36 - Price conversion error found in: Extra Ingredienten.csv
+                                 Ingredient Violating Character
+                              21     Salami                 [d]
+                              Violating character is removed and resulting price will be migrated to target.
+(ERROR) 10-Apr-21 13:47:27 - String similarity of > 90 found. Chicken Kebak replaced with: Chicken Kebab at row: 45
+ from dataset: Extra Ingredienten.csv. control dataset: pizza_ingredienten.xlsx
+(ERROR) 10-Apr-21 13:47:31 - Price conversion error found in: Extra Ingredienten.csv
+                                 Ingredient Violating Character
+                              21     Salami                 [d]
+                              Violating character is removed and resulting price will be migrated to target.
+(ERROR) 10-Apr-21 13:47:37 - Product migration errors found: 
+                                 id                                                                                  error_message  error_procedure              source_table  source_row target_table
+                              0   1  Error importing PizzaIngredient: Chicken Kebak. for pizza: Chicken Kebab. No such product Id.  ImportPizzaData  pizza_ingredienten_ghost          45      product
+                              1   2        Error importing PizzaIngredient: Chicken Kebak. for pizza: Supreme. No such product Id.  ImportPizzaData  pizza_ingredienten_ghost          52      product
+(ERROR) 10-Apr-21 13:47:39 - Exception '42S02' found 145 times importing Restaurants
+(ERROR) 10-Apr-21 13:53:34 - String similarity of > 90 found. Chicken Kebak replaced with: Chicken Kebab at row: 45
+ from dataset: Extra Ingredienten.csv. control dataset: pizza_ingredienten.xlsx
+(ERROR) 10-Apr-21 13:53:38 - Price conversion error found in: Extra Ingredienten.csv
+                                 Ingredient Violating Character
+                              21     Salami                 [d]
+                              Violating character is removed and resulting price will be migrated to target.
+(ERROR) 10-Apr-21 13:54:15 - String similarity of > 90 found. Chicken Kebak replaced with: Chicken Kebab at row: 45
+ from dataset: Extra Ingredienten.csv. control dataset: pizza_ingredienten.xlsx
+(ERROR) 10-Apr-21 13:54:20 - Price conversion error found in: Extra Ingredienten.csv
+                                 Ingredient Violating Character
+                              21     Salami                 [d]
+                              Violating character is removed and resulting price will be migrated to target.
+(ERROR) 10-Apr-21 13:57:15 - String similarity of > 90 found. Chicken Kebak replaced with: Chicken Kebab at row: 45
+ from dataset: Extra Ingredienten.csv. control dataset: pizza_ingredienten.xlsx
+(ERROR) 10-Apr-21 13:57:22 - Price conversion error found in: Extra Ingredienten.csv
+                                 Ingredient Violating Character
+                              21     Salami                 [d]
+                              Violating character is removed and resulting price will be migrated to target.
+(ERROR) 10-Apr-21 13:58:33 - String similarity of > 90 found. Chicken Kebak replaced with: Chicken Kebab at row: 45
+ from dataset: Extra Ingredienten.csv. control dataset: pizza_ingredienten.xlsx
+(ERROR) 10-Apr-21 13:58:38 - Price conversion error found in: Extra Ingredienten.csv
+                                 Ingredient Violating Character
+                              21     Salami                 [d]
+                              Violating character is removed and resulting price will be migrated to target.
+(ERROR) 10-Apr-21 13:59:34 - String similarity of > 90 found. Chicken Kebak replaced with: Chicken Kebab at row: 45
+ from dataset: Extra Ingredienten.csv. control dataset: pizza_ingredienten.xlsx
+(ERROR) 10-Apr-21 13:59:39 - Price conversion error found in: Extra Ingredienten.csv
+                                 Ingredient Violating Character
+                              21     Salami                 [d]
+                              Violating character is removed and resulting price will be migrated to target.
+(ERROR) 10-Apr-21 14:00:56 - String similarity of > 90 found. Chicken Kebak replaced with: Chicken Kebab at row: 45
+ from dataset: Extra Ingredienten.csv. control dataset: pizza_ingredienten.xlsx
+(ERROR) 10-Apr-21 14:01:00 - Price conversion error found in: Extra Ingredienten.csv
+                                 Ingredient Violating Character
+                              21     Salami                 [d]
+                              Violating character is removed and resulting price will be migrated to target.
+(ERROR) 10-Apr-21 14:01:05 - Product migration errors found: 
+                                 id                                                                                  error_message  error_procedure              source_table  source_row target_table
+                              0   1  Error importing PizzaIngredient: Chicken Kebak. for pizza: Chicken Kebab. No such product Id.  ImportPizzaData  pizza_ingredienten_ghost          45      product
+                              1   2        Error importing PizzaIngredient: Chicken Kebak. for pizza: Supreme. No such product Id.  ImportPizzaData  pizza_ingredienten_ghost          52      product
+(ERROR) 10-Apr-21 14:01:08 - Exception '42S02' found 145 times importing Restaurants
+(ERROR) 10-Apr-21 14:06:22 - String similarity of > 90 found. Chicken Kebak replaced with: Chicken Kebab at row: 45
+ from dataset: Extra Ingredienten.csv. control dataset: pizza_ingredienten.xlsx
+(ERROR) 10-Apr-21 14:06:27 - Price conversion error found in: Extra Ingredienten.csv
+                                 Ingredient Violating Character
+                              21     Salami                 [d]
+                              Violating character is removed and resulting price will be migrated to target.
+(ERROR) 10-Apr-21 14:06:32 - Product migration errors found: 
+                                 id                                                                                  error_message  error_procedure              source_table  source_row target_table
+                              0   1  Error importing PizzaIngredient: Chicken Kebak. for pizza: Chicken Kebab. No such product Id.  ImportPizzaData  pizza_ingredienten_ghost          45      product
+                              1   2        Error importing PizzaIngredient: Chicken Kebak. for pizza: Supreme. No such product Id.  ImportPizzaData  pizza_ingredienten_ghost          52      product
+(ERROR) 10-Apr-21 14:06:34 - Exception '42S02' found 145 times importing Restaurants
+(ERROR) 10-Apr-21 14:14:24 - String similarity of > 90 found. Chicken Kebak replaced with: Chicken Kebab at row: 45
+ from dataset: Extra Ingredienten.csv. control dataset: pizza_ingredienten.xlsx
+(ERROR) 10-Apr-21 14:14:29 - Price conversion error found in: Extra Ingredienten.csv
+                                 Ingredient Violating Character
+                              21     Salami                 [d]
+                              Violating character is removed and resulting price will be migrated to target.
+(ERROR) 10-Apr-21 14:15:43 - String similarity of > 90 found. Chicken Kebak replaced with: Chicken Kebab at row: 45
+ from dataset: Extra Ingredienten.csv. control dataset: pizza_ingredienten.xlsx
+(ERROR) 10-Apr-21 14:15:47 - Price conversion error found in: Extra Ingredienten.csv
+                                 Ingredient Violating Character
+                              21     Salami                 [d]
+                              Violating character is removed and resulting price will be migrated to target.
+(ERROR) 10-Apr-21 14:16:38 - String similarity of > 90 found. Chicken Kebak replaced with: Chicken Kebab at row: 45
+ from dataset: Extra Ingredienten.csv. control dataset: pizza_ingredienten.xlsx
+(ERROR) 10-Apr-21 14:16:42 - Price conversion error found in: Extra Ingredienten.csv
+                                 Ingredient Violating Character
+                              21     Salami                 [d]
+                              Violating character is removed and resulting price will be migrated to target.
+(ERROR) 10-Apr-21 14:16:48 - Product migration errors found: 
+                                 id                                                                                  error_message  error_procedure              source_table  source_row target_table
+                              0   1  Error importing PizzaIngredient: Chicken Kebak. for pizza: Chicken Kebab. No such product Id.  ImportPizzaData  pizza_ingredienten_ghost          45      product
+                              1   2        Error importing PizzaIngredient: Chicken Kebak. for pizza: Supreme. No such product Id.  ImportPizzaData  pizza_ingredienten_ghost          52      product
+(ERROR) 10-Apr-21 14:16:51 - Exception '42S02' found 145 times importing Restaurants
+(ERROR) 10-Apr-21 14:17:24 - String similarity of > 90 found. Chicken Kebak replaced with: Chicken Kebab at row: 45
+ from dataset: Extra Ingredienten.csv. control dataset: pizza_ingredienten.xlsx
+(ERROR) 10-Apr-21 14:17:29 - Price conversion error found in: Extra Ingredienten.csv
+                                 Ingredient Violating Character
+                              21     Salami                 [d]
+                              Violating character is removed and resulting price will be migrated to target.
+(ERROR) 10-Apr-21 14:17:34 - Product migration errors found: 
+                                 id                                                                                  error_message  error_procedure              source_table  source_row target_table
+                              0   1  Error importing PizzaIngredient: Chicken Kebak. for pizza: Chicken Kebab. No such product Id.  ImportPizzaData  pizza_ingredienten_ghost          45      product
+                              1   2        Error importing PizzaIngredient: Chicken Kebak. for pizza: Supreme. No such product Id.  ImportPizzaData  pizza_ingredienten_ghost          52      product
+(ERROR) 10-Apr-21 14:17:36 - Exception '42S02' found 145 times importing Restaurants

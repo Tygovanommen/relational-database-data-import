@@ -1,3 +1,5 @@
+import time
+
 from src.database import Database
 from src.logger import Logger
 import pandas as pd
@@ -10,6 +12,7 @@ class ProductsMigration:
 
     def migrate_product_data(self):
         db = Database()
+        start_time = round(time.time() * 1000)
 
         print('Starting products staging table data migration to target')
         db.execute("SET NOCOUNT ON exec ImportCategoryData")
@@ -24,10 +27,16 @@ class ProductsMigration:
         try:
             error_dataframe = pd.read_sql("SELECT * FROM product_import_error_log", engine)
             if len(error_dataframe) > 0:
+                print('Product migration complete with ' + str(len(error_dataframe)) + ' errors in '
+                      + str(round(time.time() * 1000) - start_time) + ' seconds. See error logs for details.\n')
                 error_string = "Product migration errors found: \n" \
                                + self.__indent(error_dataframe.to_string(),
                                                30)
 
                 Logger().error(error_string)
+            else:
+                print('Product migration complete with no errors in ' + str(round(time.time() * 1000) - start_time) + 'seconds.\n')
         except Exception:
             print("No import errors found")
+
+        return round(time.time() * 1000) - start_time
